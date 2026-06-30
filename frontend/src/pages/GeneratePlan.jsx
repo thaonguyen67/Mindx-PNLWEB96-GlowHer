@@ -15,6 +15,7 @@ const GOALS = [
 ];
 const AREAS = ['legs','glutes','core','back','arms','chest','shoulders','full'];
 const WEEKS = [1, 2, 3, 4];
+const DAYS_PER_WEEK = [2, 3, 4, 5];
 
 function ZapIcon() {
   return (
@@ -123,6 +124,7 @@ export default function GeneratePlan() {
   const [goal, setGoal]       = useState('');
   const [areas, setAreas]     = useState([]);
   const [weeks, setWeeks]     = useState(null);
+  const [daysPerWeek, setDaysPerWeek] = useState(null);
   const [loading, setLoading] = useState(false);
   const [plan, setPlan]       = useState(null);
   const [error, setError]     = useState('');
@@ -137,6 +139,7 @@ export default function GeneratePlan() {
     if (parsed.goal) setGoal(parsed.goal);
     if (parsed.targetBodyParts?.length) setAreas(parsed.targetBodyParts);
     if (parsed.durationWeeks) setWeeks(parsed.durationWeeks);
+    if (parsed.daysPerWeek) setDaysPerWeek(parsed.daysPerWeek);
   }, []);
 
   const handleSavePlan = useCallback(async () => {
@@ -156,13 +159,14 @@ export default function GeneratePlan() {
       const saveGoal = plan.goal || goal;
       const saveAreas = plan.targetBodyParts?.length ? plan.targetBodyParts : areas;
       const saveWeeks = plan.durationWeeks || weeks;
+      const saveDays = plan.daysPerWeek || daysPerWeek;
 
       if (!planId) {
         const { data } = await api.post('/workout-plans/generate', {
           goal: saveGoal,
           targetBodyParts: saveAreas,
           durationWeeks: saveWeeks,
-          daysPerWeek: plan.daysPerWeek || 4,
+          daysPerWeek: saveDays,
         });
         planId = data.data._id;
         setPlan(data.data);
@@ -186,7 +190,7 @@ export default function GeneratePlan() {
     } finally {
       setSaving(false);
     }
-  }, [plan, user, goal, areas, weeks, lang, navigate, updateUser]);
+  }, [plan, user, goal, areas, weeks, daysPerWeek, lang, navigate, updateUser]);
 
   useEffect(() => {
     if (!user || !plan) return;
@@ -204,14 +208,18 @@ export default function GeneratePlan() {
   const toggleWeeks = (w) =>
     setWeeks(prev => prev === w ? null : w);
 
+  const toggleDaysPerWeek = (d) =>
+    setDaysPerWeek(prev => prev === d ? null : d);
+
   const clearAll = () => {
     setGoal('');
     setAreas([]);
     setWeeks(null);
+    setDaysPerWeek(null);
     setError('');
   };
 
-  const hasSettings = goal || areas.length > 0 || weeks != null;
+  const hasSettings = goal || areas.length > 0 || weeks != null || daysPerWeek != null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -228,6 +236,10 @@ export default function GeneratePlan() {
       setError(lang === 'vi' ? 'Vui lòng chọn số tuần.' : 'Please select a duration.');
       return;
     }
+    if (!daysPerWeek) {
+      setError(t('err_days_required'));
+      return;
+    }
     setLoading(true);
     setPlan(null);
     setSaved(false);
@@ -236,7 +248,7 @@ export default function GeneratePlan() {
         goal,
         targetBodyParts: areas,
         durationWeeks: weeks,
-        daysPerWeek: 4,
+        daysPerWeek,
       });
       setPlan(data.data);
       sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data.data));
@@ -319,7 +331,6 @@ export default function GeneratePlan() {
 
             <FilterGroup
               label={lang === 'vi' ? 'Số tuần' : 'Duration'}
-              last
               activeCount={weeks ? 1 : 0}
             >
               {WEEKS.map(w => (
@@ -328,6 +339,21 @@ export default function GeneratePlan() {
                   checked={weeks === w}
                   onChange={() => toggleWeeks(w)}
                   label={`${w} ${lang === 'vi' ? 'tuần' : w === 1 ? 'week' : 'weeks'}`}
+                />
+              ))}
+            </FilterGroup>
+
+            <FilterGroup
+              label={t('days_per_week')}
+              last
+              activeCount={daysPerWeek ? 1 : 0}
+            >
+              {DAYS_PER_WEEK.map(d => (
+                <FilterCheck
+                  key={d}
+                  checked={daysPerWeek === d}
+                  onChange={() => toggleDaysPerWeek(d)}
+                  label={`${d} ${lang === 'vi' ? 'ngày/tuần' : d === 1 ? 'day/wk' : 'days/wk'}`}
                 />
               ))}
             </FilterGroup>

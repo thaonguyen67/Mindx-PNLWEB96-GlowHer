@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ExerciseVideo from './ExerciseVideo';
 import HeartButton from './HeartButton';
@@ -86,6 +87,11 @@ export default function ExerciseDetailModal({
                 </li>
               ))}
             </ul>
+            <div className="modal-actions">
+              <Link to="/generate-plan" className="btn btn-primary btn-sm" onClick={onClose}>
+                {t('create_first_plan')}
+              </Link>
+            </div>
           </div>
         </div>
       </div>
