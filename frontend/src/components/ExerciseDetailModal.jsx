@@ -1,30 +1,10 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ExerciseVideo from './ExerciseVideo';
+import HeartButton from './HeartButton';
 import '../pages/Exercises.css';
 
 const DIFF_COLOR = { beginner: '#4F9D7E', intermediate: '#C2873F', advanced: 'var(--rose-deep)' };
-
-function HeartButton({ favorited, onToggle, label }) {
-  return (
-    <button
-      type="button"
-      className={`heart-btn${favorited ? ' favorited' : ''}`}
-      onClick={onToggle}
-      aria-label={label}
-      aria-pressed={favorited}
-    >
-      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-          fill={favorited ? 'currentColor' : 'none'}
-          stroke={favorited ? 'none' : 'currentColor'}
-          strokeWidth={favorited ? 0 : 2}
-        />
-      </svg>
-    </button>
-  );
-}
 
 export default function ExerciseDetailModal({
   ex,

@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import ExerciseVideo from '../components/ExerciseVideo';
 import ExerciseDetailModal from '../components/ExerciseDetailModal';
+import HeartButton from '../components/HeartButton';
 import './Exercises.css';
 
 const BODY_PARTS   = ['legs','glutes','core','back','arms','chest','shoulders','full'];
