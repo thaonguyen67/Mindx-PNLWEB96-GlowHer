@@ -1,0 +1,229 @@
+/* ── Modal shell ──────────────────────────────────────────────────── */
+.plan-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 52, 56, .5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.plan-modal-box {
+  position: relative;
+  background: var(--ww);
+  border-radius: var(--r-card);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--sh-lg);
+}
+.plan-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ww2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--char-soft);
+  z-index: 2;
+  cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.plan-modal-close:hover {
+  background: var(--rose-tint);
+  color: var(--rose-deep);
+}
+.plan-modal-loading,
+.plan-modal-error {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--char-soft);
+}
+.plan-modal-content {
+  padding: 24px 24px 28px;
+}
+.plan-modal-content .pd-header {
+  margin-bottom: 16px;
+}
+.plan-modal-content .coach-tip {
+  margin-bottom: 16px;
+}
+
+/* ── Plan header ──────────────────────────────────────────────────── */
+.pd-header { padding: 28px 32px; margin-bottom: 20px; }
+.pd-header-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+.pd-header h1 { font-size: 28px; margin-bottom: 10px; }
+.pd-intro { font-size: 15px; color: var(--char-soft); line-height: 1.6; margin-bottom: 20px; }
+
+.pd-prog-section { margin-top: 4px; }
+.pd-prog-labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.pd-prog-title { font-size: 13.5px; font-weight: 600; color: var(--char-soft); }
+.pd-prog-frac  { font-size: 13.5px; color: var(--char-faint); }
+.pd-prog-frac strong { color: var(--char); font-weight: 700; }
+
+.coach-tip {
+  background: var(--ww);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--rose);
+  border-radius: var(--r-card);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.coach-tip-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+  margin-bottom: 8px;
+}
+.coach-tip p { font-size: 14.5px; color: var(--char-soft); line-height: 1.6; }
+
+/* ── Week sections ────────────────────────────────────────────────── */
+.pd-weeks { display: flex; flex-direction: column; gap: 12px; }
+
+.pd-week {
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: white;
+}
+.pd-week-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background .12s;
+}
+.pd-week-head:hover { background: var(--ww); }
+.pd-week.open .pd-week-head { background: var(--rose-tint); }
+
+.pd-week-label { display: flex; align-items: baseline; gap: 10px; }
+.pd-week-num {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--char);
+}
+.pd-week-prog { font-size: 13px; color: var(--char-soft); }
+
+.chev { transition: transform .2s var(--ease); color: var(--char-faint); }
+.chev.open { transform: rotate(180deg); }
+
+.pd-week-days {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--line-soft);
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ── Day row ──────────────────────────────────────────────────────── */
+.pd-day { background: white; }
+.pd-day.done { background: #F0FDF4; }
+.pd-day.rest { background: var(--ww); }
+
+.pd-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+  cursor: pointer;
+  gap: 12px;
+}
+.pd-day.rest .pd-day-head { cursor: default; }
+
+.pd-day-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.pd-day-num {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--rose-deep);
+  background: var(--rose-tint);
+  padding: 2px 9px;
+  border-radius: var(--r-chip);
+  white-space: nowrap;
+}
+.pd-day.done .pd-day-num {
+  background: #DCFCE7;
+  color: #166534;
+}
+.pd-day-focus { font-size: 13.5px; font-weight: 500; color: var(--char-soft); }
+
+.pd-done-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ok);
+  background: #DCFCE7;
+  padding: 2px 9px;
+  border-radius: var(--r-chip);
+}
+
+.pd-day-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.pd-day-body { padding: 0 0 12px; border-top: 1px solid var(--line-soft); }
+
+.ex-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.ex-table thead tr { background: var(--ww2); }
+.ex-table th {
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--char-faint);
+}
+.ex-table th:first-child { width: 52%; }
+.ex-table th:not(:first-child) { text-align: center; }
+.ex-table td {
+  padding: 10px 14px;
+  color: var(--char-soft);
+  border-top: 1px solid var(--line-soft);
+}
+.ex-table td:not(:first-child) { text-align: center; font-weight: 600; color: var(--char); }
+.ex-table tr.alt td { background: var(--ww); }
+
+@media (max-width: 560px) {
+  .pd-header { padding: 20px 18px; }
+  .pd-day-head { padding: 12px 14px; }
+}
